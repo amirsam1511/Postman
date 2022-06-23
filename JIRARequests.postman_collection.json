@@ -1,0 +1,356 @@
+{
+	"info": {
+		"_postman_id": "4e14bbc7-b159-41df-8ed3-391e13fbc883",
+		"name": "JIRA Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21419126"
+	},
+	"item": [
+		{
+			"name": "Create JIRA Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"pm.globals.get(\"IssueId\" + resp.id);\r",
+							"\r",
+							"pm.globals.set(\"IssueId\",resp.id);\r",
+							"\r",
+							"console.log(\"Issue Id is \" + resp.id);\r",
+							"console.log(\"Record is created\");\r",
+							"\r",
+							"\r",
+							"pm.test(\"Record Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"project\": {\r\n            \"key\": \"LEAF\"\r\n        },\r\n        \"summary\": \"create issue in RA project\",\r\n        \"description\": \"Creating of an issue using project keys and issue type names using the REST API\",\r\n \"issuetype\": {\r\n            \"name\": \"Bug\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issue/",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search JIRA Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Issue Id in Retrieve Record \" + pm.globals.get(\"IssueId\"));\r",
+							"console.log(\"Record is retrieved\");\r",
+							"\r",
+							"pm.test(\"Record retrieved\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issue/{{IssueId}}",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						"{{IssueId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit JIRA Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Issue Id from Modify Record is \" + pm.globals.get(\"IssueId\"));\r",
+							"console.log(\"Record is updated\");\r",
+							"\r",
+							"pm.test(\"Record Updated\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fields\": {\r\n        \"description\": \"Bug creation Using REST API for testing\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issue/{{IssueId}}",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						"{{IssueId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete JIRA Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Issue ID generated from Delete Record \" + pm.globals.get(\"IssueId\"));\r",
+							"console.log(\"Record is deleted\");\r",
+							"\r",
+							"pm.test(\"Record Deleted\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issue/{{IssueId}}",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issue",
+						"{{IssueId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search All JIRA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Search all issues in JIRA\");\r",
+							"\r",
+							"pm.test(\"Issues present in JIRA\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/search?jql=project=LEAF",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"search"
+					],
+					"query": [
+						{
+							"key": "jql",
+							"value": "project=LEAF"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListAlIssueTypes in JIRA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"pm.globals.get(\"Issue type is \" + resp[1].id);\r",
+							"\r",
+							"console.log(\"Issue Type is \" + resp[1].id);\r",
+							"\r",
+							"console.log(\"List All Issues in JIRA\");\r",
+							"\r",
+							"pm.test(\"Record Updated\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issuetype",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issuetype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Specific Issue Id in JIRA",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"Specific Issue in JIRA\");\r",
+							"\r",
+							"pm.test(\"Record Updated\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api-training.atlassian.net/rest/api/2/issuetype/{{IssueTypeId}}",
+					"protocol": "https",
+					"host": [
+						"api-training",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"issuetype",
+						"{{IssueTypeId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "2SDgvDsRopVmJ6KmiA3VF196",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "hari.radhakrishnan@testleaf.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
