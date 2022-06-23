@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "42bed1b8-1d46-4c03-b482-b68a6bbfb03e",
+		"name": "ServiceNow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21419126"
+	},
+	"item": [
+		{
+			"name": "Create Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var resp = pm.response.json();\r",
+							"pm.globals.get(\"systemId\" + resp.result.sys_id);\r",
+							"\r",
+							"pm.globals.set(\"systemId\",resp.result.sys_id);\r",
+							"\r",
+							"console.log(\"System Id is \" + resp.result.sys_id);\r",
+							"console.log(\"Record is created\");\r",
+							"\r",
+							"pm.test(\"Record Created\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\":\"{{description}}\",\r\n\"short_description\":\"{{short_description}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{env_host}}/api/now/table/{{collection-table-name}}",
+					"protocol": "https",
+					"host": [
+						"{{env_host}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{collection-table-name}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retreive Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"System Id in Retrieve Record \" + pm.globals.get(\"systemId\"));\r",
+							"console.log(\"Record is retrieved\");\r",
+							"\r",
+							"pm.test(\"Record retrieved\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{env_host}}/api/now/table/{{collection-table-name}}/{{systemId}}",
+					"protocol": "https",
+					"host": [
+						"{{env_host}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{collection-table-name}}",
+						"{{systemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Record",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"System Id from Modify Record is \" + pm.globals.get(\"systemId\"));\r",
+							"console.log(\"Record is updated\");\r",
+							"\r",
+							"pm.test(\"Record Updated\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"short_description\": \"Incident Created for software application\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{env_host}}/api/now/table/{{collection-table-name}}/{{systemId}}",
+					"protocol": "https",
+					"host": [
+						"{{env_host}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{collection-table-name}}",
+						"{{systemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"System ID generated from Delete Record \" + pm.globals.get(\"systemId\"));\r",
+							"console.log(\"Record is deleted\");\r",
+							"\r",
+							"pm.test(\"Record Deleted\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://{{env_host}}/api/now/table/{{collection-table-name}}/{{systemId}}",
+					"protocol": "https",
+					"host": [
+						"{{env_host}}"
+					],
+					"path": [
+						"api",
+						"now",
+						"table",
+						"{{collection-table-name}}",
+						"{{systemId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "U^e7ci!6SdFB",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "collection-table-name",
+			"value": "change_request",
+			"type": "string"
+		}
+	]
+}
